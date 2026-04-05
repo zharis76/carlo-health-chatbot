@@ -85,84 +85,35 @@ function ShieldIcon({ size = 14, color = 'currentColor' }: { size?: number; colo
 }
 
 // ── Compliance sidebar panel ─────────────────────────────────
-function CompliancePanel({ summary }: { summary: ComplianceSummary }) {
-  const scoreColor = summary.avgCompliance >= 80 ? 'var(--green-400)'
-    : summary.avgCompliance >= 60 ? 'var(--amber-400)' : 'var(--red-400)'
-
+function CompliancePanel() {
   return (
-    <div style={{
-      margin: '8px', border: '1px solid var(--gray-200)', borderRadius: 10,
-      background: 'white', padding: '12px', fontSize: 12
-    }}>
+    <div style={{ margin: '8px', borderTop: '1px solid var(--gray-200)', paddingTop: '10px' }}>
       <div style={{
-        display: 'flex', alignItems: 'center', gap: 5, marginBottom: 10,
-        fontSize: 10, fontWeight: 600, color: 'var(--gray-600)',
-        textTransform: 'uppercase', letterSpacing: '0.06em'
+        fontSize: 10, fontWeight: 600, color: 'var(--gray-400)',
+        textTransform: 'uppercase', letterSpacing: '0.06em',
+        padding: '0 6px', marginBottom: 8
       }}>
-        <ShieldIcon size={10} color="var(--teal-400)" />
-        Carlo compliance
+        Verified & Secure
       </div>
 
-      {/* Seal row */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+      <a
+        href="https://panel.carlopeaas.com/verify/69ce0b945ad6717c8bb608ed"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ display: 'block', padding: '0 6px', textDecoration: 'none' }}
+      >
+        <img
+          src="https://api.carlopeaas.com/api/embed/69ce0b945ad6717c8bb608ed/seal.svg"
+          alt="Carlo Compliance Seal"
+          style={{ width: '100%', maxWidth: 180, display: 'block', margin: '0 auto' }}
+        />
         <div style={{
-          width: 36, height: 36, borderRadius: '50%',
-          border: `2px solid ${summary.isConfigured ? 'var(--teal-400)' : 'var(--gray-300)'}`,
-          background: summary.isConfigured ? 'var(--teal-50)' : 'var(--gray-100)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
+          fontSize: 10, color: 'var(--gray-400)', textAlign: 'center',
+          marginTop: 4, lineHeight: 1.4
         }}>
-          <ShieldIcon size={16} color={summary.isConfigured ? 'var(--teal-600)' : 'var(--gray-400)'} />
+          Monitored by Carlo Ethics.ai.<br />Click to verify compliance.
         </div>
-        <div>
-          <div style={{ fontWeight: 600, fontSize: 11, color: summary.isConfigured ? 'var(--teal-600)' : 'var(--gray-500)' }}>
-            {summary.isConfigured
-              ? (summary.avgCompliance >= 70 ? 'Verified' : 'Needs review')
-              : 'Not configured'}
-          </div>
-          <div style={{ fontSize: 10, color: 'var(--gray-400)' }}>carlo.algorethics.ai</div>
-        </div>
-      </div>
-
-      {/* Score bars */}
-      {summary.isConfigured && summary.totalChecks > 0 ? (
-        <>
-          <div style={{ marginBottom: 6 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
-              <span style={{ color: 'var(--gray-500)', fontSize: 10 }}>Compliance</span>
-              <span style={{ fontWeight: 600, fontSize: 10, color: 'var(--gray-800)' }}>{summary.avgCompliance}%</span>
-            </div>
-            <div style={{ height: 3, background: 'var(--gray-200)', borderRadius: 2 }}>
-              <div style={{ height: 3, width: `${summary.avgCompliance}%`, background: scoreColor, borderRadius: 2, transition: 'width 0.5s' }} />
-            </div>
-          </div>
-          <div style={{ marginBottom: 8 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
-              <span style={{ color: 'var(--gray-500)', fontSize: 10 }}>Risk</span>
-              <span style={{ fontWeight: 600, fontSize: 10, color: 'var(--gray-800)' }}>{summary.avgRisk.toFixed(1)}</span>
-            </div>
-            <div style={{ height: 3, background: 'var(--gray-200)', borderRadius: 2 }}>
-              <div style={{ height: 3, width: `${Math.min(summary.avgRisk, 100)}%`, background: 'var(--amber-400)', borderRadius: 2, transition: 'width 0.5s' }} />
-            </div>
-          </div>
-          <div style={{ fontSize: 10, color: 'var(--gray-400)' }}>
-            {summary.totalChecks} check{summary.totalChecks !== 1 ? 's' : ''} this session
-          </div>
-        </>
-      ) : (
-        <div style={{ fontSize: 10, color: 'var(--gray-400)', lineHeight: 1.5 }}>
-          {summary.isConfigured
-            ? 'No checks yet — start chatting'
-            : 'Add CARLO_API_KEY and CARLO_PROJECT_ID to .env.local to activate'}
-        </div>
-      )}
-
-      {/* Seal placeholder — activate after Carlo project created */}
-      {/* TODO: Replace with actual Carlo seal URL once health project is live
-      <a href="https://carlo.algorethics.ai/seal/YOUR_PROJECT_ID" target="_blank"
-         style={{ display: 'block', marginTop: 10, textAlign: 'center', ... }}>
-        Carlo Verified Seal
       </a>
-      */}
     </div>
   )
 }
@@ -454,7 +405,7 @@ export default function HealthChatbot() {
             </div>
 
             {/* Compliance panel */}
-            <CompliancePanel summary={complianceSummary} />
+            <CompliancePanel />
           </div>
         )}
 
